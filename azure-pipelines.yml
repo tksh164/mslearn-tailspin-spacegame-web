@@ -2,20 +2,21 @@ trigger:
 - '*'
 
 pool:
-  vmImage: 'ubuntu-20.04'
+  vmImage: ubuntu-latest
   demands:
   - npm
 
 variables:
   buildConfiguration: 'Release'
   wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
-  dotnetSdkVersion: '6.x'
+  dotNetSdkVersion: '9.x'
 
 steps:
 - task: UseDotNet@2
-  displayName: 'Use .NET SDK $(dotnetSdkVersion)'
+  displayName: 'Use .NET SDK $(dotNetSdkVersion)'
   inputs:
-    version: '$(dotnetSdkVersion)'
+    packageType: sdk
+    version: '$(dotNetSdkVersion)'
 
 - task: Npm@1
   displayName: 'Run npm install'
@@ -46,7 +47,7 @@ steps:
     projects: '**/*.csproj'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Install .NET Core tools from local manifest'
+  displayName: 'Install .NET tools from local manifest'
   inputs:
     command: custom
     custom: tool
@@ -67,7 +68,7 @@ steps:
     custom: tool
     arguments: 'run reportgenerator -reports:$(Build.SourcesDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines'
 
-- task: PublishCodeCoverageResults@1
+- task: PublishCodeCoverageResults@2
   displayName: 'Publish code coverage report'
   inputs:
     codeCoverageTool: 'cobertura'

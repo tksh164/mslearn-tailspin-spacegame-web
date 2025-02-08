@@ -1,3 +1,4 @@
+![Build Status](https://takatanooutlook.visualstudio.com/Space%20Game%20-%20web%20-%20Workflow/_apis/build/status%2Ftksh164.mslearn-tailspin-spacegame-web?branchName=main)
 
 # Contributing
 
